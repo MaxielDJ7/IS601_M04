@@ -26,11 +26,11 @@ Number = Union[int, float]
 
     # List of labels for test cases above
     ids=[
-        "+_two_positive_integers",
-        "+_two_zeros",
-        "+_negative_and_positive_floats",
-        "+_two_positive_floats",
-        "+_negative_and_positive_floats",
+        "add_two_positive_integers",
+        "add_two_zeros",
+        "add_negative_and_positive_floats",
+        "add_two_positive_floats",
+        "add_negative_and_positive_floats",
     ]
 
 
@@ -52,10 +52,34 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
     # Python f-strings allow us to embed variables inside of the string
     assert result == expected, f"Expected addition({a}, {b}) to be {expected,}, but got {result}"
 
-"""def test_subtraction():
-    assert subtraction(1,1) == 0
 
-def test_multiplication():
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (3, 3, 0),
+        (0, 0, 0),
+        (-2, 2, -4),
+        (5.5, 5.5, 0),
+        (2.5, -5.5, 8),
+    ],
+
+    # List of labels for test cases above
+    ids=[
+        "minus_two_positive_integers",
+        "minus_two_zeros",
+        "minus-_negative_and_positive_floats",
+        "minus-_two_positive_floats",
+        "minus_negative_and_positive_floats",
+    ]
+
+)
+
+def test_subtraction(a: Number, b: Number, expected: Number) -> None:
+    result = Operations.subtraction(a,b)
+    assert result == expected, f"Expected addition({a}, {b}) to be {expected,}, but got {result}"
+
+
+"""def test_multiplication():
     assert multiplication(1,1) == 1
 
 def test_division_positive():
