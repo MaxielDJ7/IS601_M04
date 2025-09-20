@@ -50,7 +50,7 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
     # old: assert addition(1,1) == 2
 
     # Python f-strings allow us to embed variables inside of the string
-    assert result == expected, f"Expected addition({a}, {b}) to be {expected,}, but got {result}"
+    assert result == expected, f"Expected addition({a}, {b}) to be {expected}, but got {result}"
 
 
 @pytest.mark.parametrize(
@@ -67,8 +67,8 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
     ids=[
         "minus_two_positive_integers",
         "minus_two_zeros",
-        "minus-_negative_and_positive_floats",
-        "minus-_two_positive_floats",
+        "minus_negative_and_positive_floats",
+        "minus_two_positive_floats",
         "minus_negative_and_positive_floats",
     ]
 
@@ -76,13 +76,35 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
 
 def test_subtraction(a: Number, b: Number, expected: Number) -> None:
     result = Operations.subtraction(a,b)
-    assert result == expected, f"Expected addition({a}, {b}) to be {expected,}, but got {result}"
+    assert result == expected, f"Expected addition({a}, {b}) to be {expected}, but got {result}"
 
 
-"""def test_multiplication():
-    assert multiplication(1,1) == 1
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (3, 3, 9),
+        (0, 0, 0),
+        (-2, 2, -4),
+        (5.5, 5.5, 30.25),
+        (2.5, -5.5, -13.75),
+    ],
 
-def test_division_positive():
+    # List of labels for test cases above
+    ids=[
+        "mult_two_positive_integers",
+        "mult_two_zeros",
+        "mult_negative_and_positive_floats",
+        "mult_two_positive_floats",
+        "mult_negative_and_positive_floats",
+    ]
+
+)
+def test_multiplication(a: Number, b: Number, expected: Number) -> None:
+    result = Operations.multiplication(a,b)
+    assert result == expected, f"Expected addition({a}, {b}) to be {expected}, but got {result}"
+
+
+"""def test_division_positive():
     assert division(1,1) == 1
 
 def test_division_negative():
