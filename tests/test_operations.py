@@ -1,11 +1,58 @@
-import pytest
-from app.operations import addition, division, subtraction, multiplication
+import pytest # Import the pytest framework for writing and running tests
+# Import Union for type hinting multiple possible types
+# This helps with future type cast errors that may occur otherwise
+from typing import Union 
+from app.operations import Operations
+
+"""
+Because we encapsulated these methods in a class we don't need to import
+them individual (import addition, division, subtraction, multiplication).
+Instead we just import the class.
+"""
+
+# Type alias for numbers. Either int or float
+
+Number = Union[int, float]
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (3, 3, 6),
+        (0, 0, 0),
+        (-2, 2, 0),
+        (5.5, 5.5, 11.0),
+        (2.5, -5.5, -3.0),
+    ],
+
+    # List of labels for test cases above
+    ids=[
+        "+_two_positive_integers",
+        "+_two_zeros",
+        "+_negative_and_positive_floats",
+        "+_two_positive_floats",
+        "+_negative_and_positive_floats",
+    ]
 
 
-def test_addition():
-    assert addition(1,1) == 2
+)
 
-def test_subtraction():
+# Update the methods to accept the parameters from the parameterized test
+# Using the acceptable types we defined 
+
+def test_addition(a: Number, b: Number, expected: Number)-> None:
+
+    # Create instance Ex. variable = Operations()
+    # In that same line you can call methods within that class with the input
+
+    result = Operations.addition(a,b,)
+
+    # Confirm that the result matches the expected val from the parameterized list of tuples
+    # old: assert addition(1,1) == 2
+
+    # Python f-strings allow us to embed variables inside of the string
+    assert result == expected, f"Expected addition({a}, {b}) to be {expected,}, but got {result}"
+
+"""def test_subtraction():
     assert subtraction(1,1) == 0
 
 def test_multiplication():
@@ -16,4 +63,4 @@ def test_division_positive():
 
 def test_division_negative():
      with pytest.raises(ValueError, match="Division by zero is not allowed."):
-        division(1, 0)
+        division(1, 0)"""
