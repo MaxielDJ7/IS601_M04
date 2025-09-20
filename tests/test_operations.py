@@ -59,8 +59,8 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
         (3, 3, 0),
         (0, 0, 0),
         (-2, 2, -4),
-        (5.5, 5.5, 0),
-        (2.5, -5.5, 8),
+        (5.5, 5.5, 0.0),
+        (2.5, -5.5, 8.0),
     ],
 
     # List of labels for test cases above
@@ -76,14 +76,14 @@ def test_addition(a: Number, b: Number, expected: Number)-> None:
 
 def test_subtraction(a: Number, b: Number, expected: Number) -> None:
     result = Operations.subtraction(a,b)
-    assert result == expected, f"Expected addition({a}, {b}) to be {expected}, but got {result}"
+    assert result == expected, f"Expected subtraction({a}, {b}) to be {expected}, but got {result}"
 
 
 @pytest.mark.parametrize(
     "a, b, expected",
     [
         (3, 3, 9),
-        (0, 0, 0),
+        (0, 10, 0),
         (-2, 2, -4),
         (5.5, 5.5, 30.25),
         (2.5, -5.5, -13.75),
@@ -92,7 +92,7 @@ def test_subtraction(a: Number, b: Number, expected: Number) -> None:
     # List of labels for test cases above
     ids=[
         "mult_two_positive_integers",
-        "mult_two_zeros",
+        "mult_zero_with_positive_integer",
         "mult_negative_and_positive_floats",
         "mult_two_positive_floats",
         "mult_negative_and_positive_floats",
@@ -101,12 +101,54 @@ def test_subtraction(a: Number, b: Number, expected: Number) -> None:
 )
 def test_multiplication(a: Number, b: Number, expected: Number) -> None:
     result = Operations.multiplication(a,b)
-    assert result == expected, f"Expected addition({a}, {b}) to be {expected}, but got {result}"
+    assert result == expected, f"Expected multiplication({a}, {b}) to be {expected}, but got {result}"
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (3, 3, 1.0),
+        (-4, -2, 2.0),
+        (6.0, 2.0, 3.0),
+        (-5.5, 5.5, -1.0),
+        (0, 5, 0.0),
+    ],
+
+    # List of labels for test cases above
+    ids=[
+        "divide_two_positive_integers",
+        "divide_two_negative_integers",
+        "divide_two_positive_floats",
+        "divide_negative_and_positive_floats",
+        "divide_zero_by_positive_integer",
+    ]
+
+)
+
+def test_division_positive(a: Number, b: Number, expected: Number) -> None:
+    result = Operations.division(a,b)
+    assert result == expected, f"Expected division({a}, {b}) to be {expected}, but got {result}"
 
 
-"""def test_division_positive():
-    assert division(1,1) == 1
+@pytest.mark.parametrize(
+    "a, b",
+    [
+        (1, 0),
+        (-1, 0),
+        (0, 0),
+        
+    ],
 
-def test_division_negative():
-     with pytest.raises(ValueError, match="Division by zero is not allowed."):
-        division(1, 0)"""
+    # List of labels for test cases above
+    ids=[
+        "divide_positive_by_zero",
+        "divide_negative_by_zero",
+        "divide_zero_by_zero",
+    ]
+
+)
+def test_division_negative(a: Number, b: Number) -> None:
+    with pytest.raises(ValueError, match="Division by zero is not allowed.") as excinfo:
+        Operations.division(a, b)
+    
+    assert "Division by zero is not allowed." in str(excinfo.value), \
+        f"Expected error message 'Division by zero is not allowed.', but got '{excinfo.value}'"
