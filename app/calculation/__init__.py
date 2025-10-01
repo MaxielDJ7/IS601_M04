@@ -203,4 +203,16 @@ class PowerCalculation(Calculation):
     def execute(self) -> float:
         # Calls the power method from the Operation module.
         return Operations.power(self.a, self.b) # pragma: no cover
+
+@CalculationFactory.register_calculation('modulo')
+class ModuloCalculation(Calculation):
+    """
+    ModuloCalculation represents a modulus operation.
     
+    By encapsulating the modulus logic here, we achieve a clear separation of 
+    concerns, making it easy to adjust the modulus logic without affecting other calculations.
+    """
+
+    def execute(self) -> float:
+        # Calls the modulus method from the Operation module.
+        return Operations.modulo(self.a, self.b) # pragma: no cover
