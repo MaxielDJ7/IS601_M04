@@ -4,7 +4,7 @@ import pytest
 from io import StringIO
 
 from pytest import MonkeyPatch
-from app.calculator import calculator
+from app.calculator import calculator, display_history, display_help
 
 
 # Helper function to capture print statements
@@ -124,3 +124,47 @@ def test_calculator_history(monkeypatch, capsys):
     assert "Calculation History:" in captured.out
     assert "1. AddCalculation: 10.0 Add 5.0 = 15.0" in captured.out
     assert "2. SubtractCalculation: 20.0 Subtract 3.0 = 17.0" in captured.out
+
+def test_display_help(capsys):
+    """
+    Test the display_help function to ensure it prints the correct help message.
+
+    AAA Pattern:
+    - Arrange: No special setup required for this function.
+    - Act: Call the display_help function.
+    - Assert: Capture the output and verify it matches the expected help message.
+    """
+    # Arrange
+    # No arrangement needed since display_help doesn't require any input or setup.
+
+    # Act
+    display_help()
+
+    # Assert
+    # Capture the printed output
+    captured = capsys.readouterr()
+    expected_output = """
+    Calculator REPL Help
+    --------------------
+    Usage:
+        <operation> <number1> <number2>
+        - Perform a calculation with the specified operation and two numbers.
+        - Supported operations:
+            add       : Adds two numbers.
+            subtract  : Subtracts the second number from the first.
+            multiply  : Multiplies two numbers.
+            divide    : Divides the first number by the second.
+
+    Special Commands:
+        help      : Display this help message.
+        history   : Show the history of calculations.
+        exit      : Exit the calculator.
+
+    Examples:
+        add 10 5
+        subtract 15.5 3.2
+        multiply 7 8
+        divide 20 4
+    """
+    # Remove leading/trailing whitespace for comparison
+    assert captured.out.strip() == expected_output.strip()
