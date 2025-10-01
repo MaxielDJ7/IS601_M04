@@ -32,40 +32,40 @@ def test_addition(monkeypatch: MonkeyPatch):
     """Test addition operation in REPL."""
     inputs = ["add 2 3", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 5.0" in output
+    assert "Result: AddCalculation: 2.0 Add 3.0 = 5.0" in output
 
 
 def test_subtraction(monkeypatch: MonkeyPatch):
     """Test subtraction operation in REPL."""
     inputs = ["subtract 5 2", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 3.0" in output
+    assert "Result: SubtractCalculation: 5.0 Subtract 2.0 = 3.0" in output
 
 
 def test_multiplication(monkeypatch: MonkeyPatch):
     """Test multiplication operation in REPL."""
     inputs = ["multiply 4 5", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 20.0" in output
+    assert "Result: MultiplyCalculation: 4.0 Multiply 5.0 = 20.0" in output
 
 
 def test_division(monkeypatch: MonkeyPatch):
     """Test division operation in REPL."""
     inputs = ["divide 10 2", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 5.0" in output
+    assert "Result: DivideCalculation: 10.0 Divide 2.0 = 5.0" in output
 
 def test_power(monkeypatch: MonkeyPatch):
     """Test power operation in REPL."""
     inputs = ["power 2 3", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 8.0" in output
+    assert "Result: PowerCalculation: 2.0 Power 3.0 = 8.0" in output
 
 def test_modulus(monkeypatch: MonkeyPatch):
     """Test modulus operation in REPL."""
     inputs = ["modulo 3 2", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 1.0" in output
+    assert "Result: ModuloCalculation: 3.0 Modulo 2.0 = 1.0" in output
 
 
 # Negative Tests
@@ -100,3 +100,27 @@ def test_division_mod_by_zero(monkeypatch: MonkeyPatch, command: str):
     inputs = [command, "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Division by zero is not allowed" in output
+
+def test_calculator_history(monkeypatch, capsys):
+    """
+    Test the calculator's ability to display calculation history.
+
+    AAA Pattern:
+    - Arrange: Prepare a sequence of operations followed by 'history' and 'exit'.
+    - Act: Call the calculator function.
+    - Assert: Verify that the history is displayed correctly.
+    """
+    # Arrange
+    user_input = 'add 10 5\nsubtract 20 3\nhistory\nexit\n'
+    monkeypatch.setattr('sys.stdin', StringIO(user_input))
+
+    # Act
+    calculator()
+
+    # Assert
+    captured = capsys.readouterr()
+    assert "Result: AddCalculation: 10.0 Add 5.0 = 15.0" in captured.out
+    assert "Result: SubtractCalculation: 20.0 Subtract 3.0 = 17.0" in captured.out
+    assert "Calculation History:" in captured.out
+    assert "1. AddCalculation: 10.0 Add 5.0 = 15.0" in captured.out
+    assert "2. SubtractCalculation: 20.0 Subtract 3.0 = 17.0" in captured.out
