@@ -1,5 +1,6 @@
 """ tests/test_calculator.py """
 import sys
+import pytest
 from io import StringIO
 
 from pytest import MonkeyPatch
@@ -82,8 +83,20 @@ def test_invalid_input_format(monkeypatch: MonkeyPatch):
     assert "Invalid input. Please follow the format" in output
 
 
-def test_division_by_zero(monkeypatch: MonkeyPatch):
+@pytest.mark.parametrize(
+    "command",
+    [
+        "divide 5 0",
+        "modulo 5 0",
+    ],
+    ids=[
+        "divide_by_zero_in_repl",
+        "mod_by_zero_in_repl",
+    ]
+)
+
+def test_division_mod_by_zero(monkeypatch: MonkeyPatch, command: str):
     """Test division by zero in REPL."""
-    inputs = ["divide 5 0", "exit"]
+    inputs = [command, "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Division by zero is not allowed" in output
