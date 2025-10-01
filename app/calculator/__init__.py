@@ -40,30 +40,30 @@ def calculator():
             continue  # This "continue" means: try again by going back to the top of the loop.
 
         # Now we check what operation the user asked for and call the right function (addition, subtraction, etc.).
-        if operation == "add":
-            result = Operations.addition(num1, num2)  # We call the addition function to add the two numbers.
-        elif operation == "subtract":
-            result = Operations.subtraction(num1, num2)  # We call the subtraction function to subtract the two numbers.
-        elif operation == "multiply":
-            result = Operations.multiplication(num1, num2)  # We call the multiplication function to multiply the two numbers.
-        elif operation == "power":
-            result = Operations.power(num1, num2)  # We call the power function.
-        elif operation == "modulo":
-            result = Operations.modulo(num1, num2)  # We call the modulus function.
-        elif operation == "divide":
-            try:
+        try:
+            if operation == "add":
+                result = Operations.addition(num1, num2)  # We call the addition function to add the two numbers.
+            elif operation == "subtract":
+                result = Operations.subtraction(num1, num2)  # We call the subtraction function to subtract the two numbers.
+            elif operation == "multiply":
+                result = Operations.multiplication(num1, num2)  # We call the multiplication function to multiply the two numbers.
+            elif operation == "power":
+                result = Operations.power(num1, num2)  # We call the power function.
+            elif operation == "modulo":
+                result = Operations.modulo(num1, num2)  # We call the modulus function.
+            elif operation == "divide":
                 result = Operations.division(num1, num2)  # We call the division function to divide the two numbers.
-            except ValueError as e:
-                # This part handles the case where someone tries to divide by zero, which we can't do.
-                # The division function will throw an error if someone tries dividing by zero, and we catch that error here.
-                print(e)  # Show the error message.
+                
+            else:
+                # If the user types an operation we don't understand, we show them a message.
+                print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide, power, modulo.")
                 continue  # Go back to the top of the loop and try again.
-        else:
-            # If the user types an operation we don't understand, we show them a message.
-            print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide, power, modulo.")
-            continue  # Go back to the top of the loop and try again.
-
-        # Finally, we print the result of the operation (for example, "Result: 8").
+        except ValueError as e:
+                    # This part handles the case where someone tries to divide by zero, which we can't do.
+                    # The division function will throw an error if someone tries dividing by zero, and we catch that error here.
+                    print(e)  # Show the error message.
+                    continue  # Go back to the top of the loop and try again.
+        
         print(f"Result: {result}")
 
 
