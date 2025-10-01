@@ -54,6 +54,12 @@ def test_division(monkeypatch: MonkeyPatch):
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Result: 5.0" in output
 
+def test_power(monkeypatch: MonkeyPatch):
+    """Test power operation in REPL."""
+    inputs = ["power 2 3", "exit"]
+    output = run_calculator_with_input(monkeypatch, inputs)
+    assert "Result: 8.0" in output
+
 
 # Negative Tests
 def test_invalid_operation(monkeypatch: MonkeyPatch):
