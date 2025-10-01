@@ -99,9 +99,31 @@ def test_subtraction(a: Number, b: Number, expected: Number) -> None:
     ]
 
 )
+
 def test_multiplication(a: Number, b: Number, expected: Number) -> None:
     result = Operations.multiplication(a,b)
     assert result == expected, f"Expected multiplication({a}, {b}) to be {expected}, but got {result}"
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (3, 3, 0),          
+        (0, 10, 0),         
+        (-2, 2, 0),         
+        (5.5, 2.0, 1.5),    
+        (2.5, -5.5, -3.0),   
+    ],
+    ids=[
+        "mod_equal_integers",
+        "mod_zero_with_positive_integer",
+        "mod_negative_divisible_by_positive",
+        "mod_positive_float_with_positive",
+        "mod_positive_with_negative_float",
+    ]
+)
+def test_modulo(a: Number, b: Number, expected: Number) -> None:
+    result = Operations.modulo(a, b)
+    assert result == expected, f"Expected modulo({a}, {b}) to be {expected}, but got {result}"
 
 @pytest.mark.parametrize(
     "a, b, expected",
@@ -123,6 +145,7 @@ def test_multiplication(a: Number, b: Number, expected: Number) -> None:
     ]
 
 )
+
 
 def test_division_positive(a: Number, b: Number, expected: Number) -> None:
     result = Operations.division(a,b)
