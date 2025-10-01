@@ -153,25 +153,27 @@ def test_division_positive(a: Number, b: Number, expected: Number) -> None:
 
 
 @pytest.mark.parametrize(
-    "a, b",
+   "operation, a, b",
     [
-        (1, 0),
-        (-1, 0),
-        (0, 0),
-        
+        (Operations.division, 1, 0),
+        (Operations.division, -1, 0),
+        (Operations.division, 0, 0),
+        (Operations.modulo, 1, 0),
+        (Operations.modulo, -1, 0),
+        (Operations.modulo, 0, 0),
     ],
-
-    # List of labels for test cases above
     ids=[
         "divide_positive_by_zero",
         "divide_negative_by_zero",
         "divide_zero_by_zero",
+        "mod_positive_by_zero",
+        "mod_negative_by_zero",
+        "mod_zero_by_zero",
     ]
-
 )
-def test_division_negative(a: Number, b: Number) -> None:
+def test_division_mod_negative(operation, a: Number, b: Number) -> None:
     with pytest.raises(ValueError, match="Division by zero is not allowed.") as excinfo:
-        Operations.division(a, b)
+        operation(a, b)
     
     assert "Division by zero is not allowed." in str(excinfo.value), \
         f"Expected error message 'Division by zero is not allowed.', but got '{excinfo.value}'"
