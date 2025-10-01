@@ -90,7 +90,7 @@ def calculator():
         elif command == "history":
             display_history(history)
             continue
-        
+
         try:
             # Now we split the input into three parts: the operation (add, subtract, etc.) and the two numbers.
             operation, num1, num2 = user_input.split()
@@ -149,6 +149,9 @@ def calculator():
          # Prepare the result string for display
         result_str= f"Result: {result}"
         print(f"Result: {result_str}\n")
+
+        # Append the calculation object to history
+        history.append(calculation)
 
 
 # Explanation of __init__.py:
