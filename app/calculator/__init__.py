@@ -22,7 +22,7 @@ def calculator():
     while True:
         # Now we ask the user to type something, like "add 5 3". 
         # This will get the operation (like "add") and two numbers from the user.
-        user_input = input("Enter an operation (add, subtract, multiply, divide) and two numbers, or 'exit' to quit: ")
+        user_input = input("Enter an operation (add, subtract, multiply, divide, power, modulo) and two numbers, or 'exit' to quit: ")
 
         # This part checks if the user typed "exit". If they did, we print a message and stop the calculator.
         if user_input.lower() == "exit":
@@ -48,6 +48,8 @@ def calculator():
             result = Operations.multiplication(num1, num2)  # We call the multiplication function to multiply the two numbers.
         elif operation == "power":
             result = Operations.power(num1, num2)  # We call the power function.
+        elif operation == "modulo":
+            result = Operations.modulo(num1, num2)  # We call the modulus function.
         elif operation == "divide":
             try:
                 result = Operations.division(num1, num2)  # We call the division function to divide the two numbers.
@@ -58,7 +60,7 @@ def calculator():
                 continue  # Go back to the top of the loop and try again.
         else:
             # If the user types an operation we don't understand, we show them a message.
-            print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide, power.")
+            print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide, power, modulo.")
             continue  # Go back to the top of the loop and try again.
 
         # Finally, we print the result of the operation (for example, "Result: 8").
