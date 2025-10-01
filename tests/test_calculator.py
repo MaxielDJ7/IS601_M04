@@ -125,6 +125,54 @@ def test_calculator_history(monkeypatch, capsys):
     assert "1. AddCalculation: 10.0 Add 5.0 = 15.0" in captured.out
     assert "2. SubtractCalculation: 20.0 Subtract 3.0 = 17.0" in captured.out
 
+def test_display_history_empty(capsys):
+    """
+    Test the display_history function when the history is empty.
+
+    AAA Pattern:
+    - Arrange: Create an empty history list.
+    - Act: Call the display_history function with the empty history.
+    - Assert: Capture the output and verify it indicates no calculations have been performed.
+    """
+    # Arrange
+    history = []
+
+    # Act
+    display_history(history)
+
+    # Assert
+    captured = capsys.readouterr()
+    assert captured.out.strip() == "No calculations performed yet."
+
+def test_display_history_with_entries(capsys):
+    """
+    Test the display_history function when there are entries in the history.
+
+    AAA Pattern:
+    - Arrange: Create a history list with sample calculation entries.
+    - Act: Call the display_history function with the populated history.
+    - Assert: Capture the output and verify it displays the calculations correctly.
+    """
+    # Arrange
+    history = [
+        "AddCalculation: 10.0 Add 5.0 = 15.0",
+        "SubtractCalculation: 20.0 Subtract 3.0 = 17.0",
+        "MultiplyCalculation: 7.0 Multiply 8.0 = 56.0",
+        "DivideCalculation: 20.0 Divide 4.0 = 5.0"
+    ]
+
+    # Act
+    display_history(history)
+
+    # Assert
+    captured = capsys.readouterr()
+    expected_output = """Calculation History:
+1. AddCalculation: 10.0 Add 5.0 = 15.0
+2. SubtractCalculation: 20.0 Subtract 3.0 = 17.0
+3. MultiplyCalculation: 7.0 Multiply 8.0 = 56.0
+4. DivideCalculation: 20.0 Divide 4.0 = 5.0"""
+    assert captured.out.strip() == expected_output.strip()
+
 def test_display_help(capsys):
     """
     Test the display_help function to ensure it prints the correct help message.
@@ -168,3 +216,24 @@ def test_display_help(capsys):
     """
     # Remove leading/trailing whitespace for comparison
     assert captured.out.strip() == expected_output.strip()
+
+def test_calculator_help_command(monkeypatch, capsys):
+    """
+    Test the calculator function's ability to handle the 'help' command.
+
+    AAA Pattern:
+    - Arrange: Prepare the input 'help' followed by 'exit' to simulate user interactions.
+    - Act: Call the calculator function.
+    - Assert: Verify that the help message is displayed and the calculator exits gracefully.
+    """
+    # Arrange
+    user_input = 'help\nexit\n'
+    monkeypatch.setattr('sys.stdin', StringIO(user_input))
+
+    # Act
+    calculator()
+
+    # Assert
+    captured = capsys.readouterr()
+    assert "Calculator REPL Help" in captured.out
+    assert "Exiting calculator..." in captured.out
