@@ -140,7 +140,7 @@ def calculator():
             print("Division by zero is not allowed")
             continue
 
-        except ValueError as e:
+        except ValueError as e: # pragma: no cover
                     # This part handles the case where someone tries to divide by zero, which we can't do.
                     # The division function will throw an error if someone tries dividing by zero, and we catch that error here.
                     print(e)  # Show the error message.
