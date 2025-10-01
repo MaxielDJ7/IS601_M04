@@ -271,6 +271,25 @@ def test_modulus_calculation_execute_negative(mock_modulus):
     # Verify that the exception message is as expected
     assert str(exc_info.value) == "Modulus error"
 
+def test_modulo_calculation_execute_divide_by_zero():
+    """
+    Test that ModuloCalculation.execute raises ZeroDivisionError when dividing by zero.
+
+    This test verifies that attempting to divide by zero using ModuloCalculation
+    correctly raises a ZeroDivisionError with an appropriate error message.
+    """
+    # Arrange
+    a = 10.0
+    b = 0.0
+    modulus_calc = ModuloCalculation(a, b)
+
+    # Act & Assert
+    with pytest.raises(ZeroDivisionError) as exc_info:
+        modulus_calc.execute()
+
+    # Verify the exception message is as expected
+    assert str(exc_info.value) == "Cannot divide by zero."
+
 
 
 # -----------------------------------------------------------------------------------
