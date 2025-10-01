@@ -46,6 +46,8 @@ def calculator():
             result = Operations.subtraction(num1, num2)  # We call the subtraction function to subtract the two numbers.
         elif operation == "multiply":
             result = Operations.multiplication(num1, num2)  # We call the multiplication function to multiply the two numbers.
+        elif operation == "power":
+            result = Operations.power(num1, num2)  # We call the power function.
         elif operation == "divide":
             try:
                 result = Operations.division(num1, num2)  # We call the division function to divide the two numbers.
@@ -56,7 +58,7 @@ def calculator():
                 continue  # Go back to the top of the loop and try again.
         else:
             # If the user types an operation we don't understand, we show them a message.
-            print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide.")
+            print(f"Unknown operation '{operation}'. Supported operations: add, subtract, multiply, divide, power.")
             continue  # Go back to the top of the loop and try again.
 
         # Finally, we print the result of the operation (for example, "Result: 8").
