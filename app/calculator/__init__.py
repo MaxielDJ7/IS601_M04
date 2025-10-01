@@ -64,19 +64,20 @@ def calculator():
 
     # First, we print a message to welcome the user to the calculator.
     print("Welcome to the calculator REPL! Type 'exit' to quit")
+    print("Type 'help' for instructions or 'exit' to quit.\n")
     
     # This is the part where the calculator keeps running. The 'while True' means we are going to keep 
     # doing something (in this case, asking the user for input) until we tell it to stop.
     while True:
         # Now we ask the user to type something, like "add 5 3". 
         # This will get the operation (like "add") and two numbers from the user.
-        user_input = input("Enter an operation (add, subtract, multiply, divide, power, modulo) and two numbers, or 'exit' to quit: ")
+        user_input = str = input(">> ").strip()
        
         # Handle special commands
         command = user_input.lower()
         # This part checks if the user typed "exit". If they did, we print a message and stop the calculator.
         
-        if user_input.lower() == "exit":
+        if command == "exit":
             print("Exiting calculator...")
             break  # This "break" command tells the program to stop running the loop and exit.
         elif not user_input:
@@ -99,6 +100,7 @@ def calculator():
         except ValueError:
             # If the user doesn't type something correctly, like typing letters where numbers should be, we show an error.
             print("Invalid input. Please follow the format: <operation> <num1> <num2>")
+            print("Type 'help' for more information.\n")
             continue  # This "continue" means: try again by going back to the top of the loop.
 
         # Now we check what operation the user asked for and call the right function (addition, subtraction, etc.).
@@ -147,8 +149,7 @@ def calculator():
         #print(f"Result: {result}")
 
          # Prepare the result string for display
-        result_str= f"Result: {result}"
-        print(f"Result: {result_str}\n")
+        print(f"Result: {calculation}\n")
 
         # Append the calculation object to history
         history.append(calculation)
