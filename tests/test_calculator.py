@@ -73,7 +73,7 @@ def test_invalid_operation(monkeypatch: MonkeyPatch):
     """Test invalid operation in REPL."""
     inputs = ["floor 5 3", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Unknown operation" in output
+    assert "Type 'help' to see the list of supported operations.\n" in output
 
 
 def test_invalid_input_format(monkeypatch: MonkeyPatch):
