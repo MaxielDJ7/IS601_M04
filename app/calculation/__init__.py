@@ -214,5 +214,6 @@ class ModuloCalculation(Calculation):
     """
 
     def execute(self) -> float:
-        # Calls the modulus method from the Operation module.
-        return Operations.modulo(self.a, self.b) # pragma: no cover
+        if self.b == 0:
+                raise ZeroDivisionError("Cannot divide by zero.")
+        return Operations.modulo(self.a, self.b)
