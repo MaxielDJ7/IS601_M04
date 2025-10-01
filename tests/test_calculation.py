@@ -21,7 +21,8 @@ from app.calculation import (
     MultiplyCalculation,
     DivideCalculation,
     Calculation,
-    PowerCalculation
+    PowerCalculation,
+    ModuloCalculation
 )
 
 
@@ -249,6 +250,27 @@ def test_power_calculation_execute_negative(mock_power):
     # Verify that the exception message is as expected
     assert str(exc_info.value) == "Power error"
 
+@patch.object(Operations, 'modulo')
+def test_modulus_calculation_execute_negative(mock_modulus):
+    """
+    Test the execute method of ModuloCalculation for a negative scenario.
+
+    This test ensures that if the Operations.power method raises an exception,
+    the PowerCalculation.execute method propagates it correctly.
+    """
+    # Arrange
+    a = 3.0
+    b = 2.0
+    mock_modulus.side_effect = Exception("Modulus error")
+    modulus_calc = ModuloCalculation(a, b)
+
+    # Act & Assert
+    with pytest.raises(Exception) as exc_info:
+        modulus_calc.execute()
+
+    # Verify that the exception message is as expected
+    assert str(exc_info.value) == "Modulus error"
+
 
 
 # -----------------------------------------------------------------------------------
@@ -349,7 +371,26 @@ def test_factory_creates_power_calculation():
     calc = CalculationFactory.create_calculation('power', a, b)
 
     # Assert
-    assert isinstance(calc, PowerCalculation)
+    assert isinstance(calc, Calculation)
+    assert calc.a == a
+    assert calc.b == b
+
+def test_factory_creates_modulus_calculation():
+    """
+    Test that CalculationFactory creates a ModuloCalculation instance.
+
+    This test ensures that the factory correctly instantiates the ModuloCalculation
+    class when the 'modulus' calculation type is requested.
+    """
+    # Arrange
+    a = 3.0
+    b = 2.0
+
+    # Act
+    calc = CalculationFactory.create_calculation('modulo', a, b)
+
+    # Assert
+    assert isinstance(calc, ModuloCalculation)
     assert calc.a == a
     assert calc.b == b
 
@@ -506,6 +547,27 @@ def test_calculation_str_representation_power(mock_power):
     expected_str = f"{power_calc.__class__.__name__}: {a} Power {b} = 8.0"
     assert calc_str == expected_str
 
+@patch.object(Operations, 'modulo', return_value=1.0)
+def test_calculation_str_representation_modulus(mock_modulus):
+    """
+    Test the __str__ method of ModuloCalculation.
+
+    This test verifies that the string representation of a ModuloCalculation instance
+    is formatted correctly, displaying the class name, operation, operands, and result.
+    """
+    # Arrange
+    a = 3.0
+    b = 2.0
+    modulus_calc = ModuloCalculation(a, b)
+
+    # Act
+    calc_str = str(modulus_calc)
+
+    # Assert
+    # Expected string should reflect the operation name derived from the class name ('Modulus')
+    expected_str = f"{modulus_calc.__class__.__name__}: {a} Modulo {b} = 1.0"
+    assert calc_str == expected_str
+
 def test_calculation_repr_representation_subtraction():
     """
     Test the __repr__ method of SubtractCalculation.
@@ -558,14 +620,16 @@ def test_calculation_repr_representation_division():
     ('multiply', 10.0, 5.0, 50.0),
     ('divide', 10.0, 5.0, 2.0),
     ('power', 2.0, 3.0, 8.0),
+    ('modulo', 3.0, 2.0, 1.0),
 ])
 @patch.object(Operations, 'addition')
 @patch.object(Operations, 'subtraction')
 @patch.object(Operations, 'multiplication')
 @patch.object(Operations, 'division')
 @patch.object(Operations, 'power')
+@patch.object(Operations, 'modulo')
 def test_calculation_execute_parameterized(
-    mock_power, mock_division, mock_multiplication, mock_subtraction, mock_addition,
+    mock_modulus, mock_power, mock_division, mock_multiplication, mock_subtraction, mock_addition,
     calc_type, a, b, expected_result
 ):
     """
@@ -585,6 +649,8 @@ def test_calculation_execute_parameterized(
         mock_division.return_value = expected_result
     elif calc_type == 'power':
         mock_power.return_value = expected_result
+    elif calc_type == 'modulo':
+        mock_modulus.return_value = expected_result
 
     # Act: Create calculation instance and execute
     calc = CalculationFactory.create_calculation(calc_type, a, b)
@@ -601,6 +667,8 @@ def test_calculation_execute_parameterized(
         mock_division.assert_called_once_with(a, b)
     elif calc_type == 'power':
         mock_power.assert_called_once_with(a, b)
+    elif calc_type == 'modulo':
+        mock_modulus.assert_called_once_with(a, b)
 
     assert result == expected_result
 
@@ -615,14 +683,17 @@ def test_calculation_execute_parameterized(
     ('multiply', 10.0, 5.0, "MultiplyCalculation: 10.0 Multiply 5.0 = 50.0"),
     ('divide', 10.0, 5.0, "DivideCalculation: 10.0 Divide 5.0 = 2.0"),
     ('power', 2.0, 3.0, "PowerCalculation: 2.0 Power 3.0 = 8.0"),
+    ('modulo', 3.0, 2.0, "ModuloCalculation: 3.0 Modulo 2.0 = 1.0"),
+
 ])
 @patch.object(Operations, 'addition', return_value=15.0)
 @patch.object(Operations, 'subtraction', return_value=5.0)
 @patch.object(Operations, 'multiplication', return_value=50.0)
 @patch.object(Operations, 'division', return_value=2.0)
 @patch.object(Operations, 'power', return_value=8.0)
+@patch.object(Operations, 'modulo', return_value=1.0)
 def test_calculation_str_parameterized(
-    mock_power, mock_division, mock_multiplication, mock_subtraction, mock_addition,
+    mock_modulus, mock_power, mock_division, mock_multiplication, mock_subtraction, mock_addition,
     calc_type, a, b, expected_str
 ):
     """
