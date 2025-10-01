@@ -24,3 +24,7 @@ class Operations:
     @staticmethod
     def power(a: float, b:float) -> float:
         return a ** b
+    
+    @staticmethod
+    def modulo(a: float, b:float) -> float:
+        return a % b
