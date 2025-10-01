@@ -60,11 +60,17 @@ def test_power(monkeypatch: MonkeyPatch):
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Result: 8.0" in output
 
+def test_modulus(monkeypatch: MonkeyPatch):
+    """Test modulus operation in REPL."""
+    inputs = ["modulo 3 2", "exit"]
+    output = run_calculator_with_input(monkeypatch, inputs)
+    assert "Result: 1.0" in output
+
 
 # Negative Tests
 def test_invalid_operation(monkeypatch: MonkeyPatch):
     """Test invalid operation in REPL."""
-    inputs = ["modulus 5 3", "exit"]
+    inputs = ["floor 5 3", "exit"]
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Unknown operation" in output
 
